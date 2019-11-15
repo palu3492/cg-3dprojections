@@ -72,20 +72,20 @@ function DrawScene() {
     console.log(perspective); 
     var i, j, k;
     var Mper = new Matrix(4,4);
-    Mper.values =[
+    Mper.values =[ // Mper from the slides
         [1, 0, 0, 0],
         [0, 1, 0, 0],
         [0, 0, 1, 0],
         [0, 0, -1, 0]
     ]
     var transcale = new Matrix(4,4);
-    transcale.values = [
+    transcale.values = [ // Should be the matrix from the last slide
         [view.width/2, 0,0,view.width/2],
         [0, view.height/2, 0, view.height/2],
         [0, 0, 1, 0],
         [0, 0, 0, 1]
     ]
-    for(i = 0; i< scene.models.length; i++) {
+    for(i = 0; i< scene.models.length; i++) { // Looping over each model
         // 1. transform vertices in canonicalVV 
         // 2. Clip against CVV
         // 3. Project onto 2D (Mper matrix)
@@ -94,8 +94,8 @@ function DrawScene() {
         // step 1
         var tempVertices;
         tempVertices = [];
-        for(j = 0; j < scene.models[i].vertices.length; j++) {
-            tempVertices.push(Matrix.multiply( perspective, scene.models[i].vertices[j]));
+        for(j = 0; j < scene.models[i].vertices.length; j++) { // looping over each models vertices
+            tempVertices.push(Matrix.multiply( perspective, scene.models[i].vertices[j])); // scaling them down to the viewbounds
         }
 
         // 2.
@@ -116,9 +116,6 @@ function DrawScene() {
     }
 } // DrawScene
 
-function DrawThings() {
-    
-}
 function GetOutCode(pt, view) {
     var outcode = 0;
     if(pt.x < view.x_min) {
@@ -246,30 +243,19 @@ function OnKeyDown(event) {
     var i;
     switch (event.keyCode) {
         case 37: // LEFT Arrow
-            for(i =0; i < tempVertices.length; i++) {
-                var newX = tempVertices[i].data[0][0] + 0.001;
-                tempVertices[i].data[0][0] = newX;
-            }
-
+            
             console.log("left");
             break;
         case 38: // UP Arrow
-            for(i =0; i < tempVertices.length; i++) {
-                var newZ = tempVertices[i].data[2][0];
-                
-            }
+            
             console.log("up");
             break;
         case 39: // RIGHT Arrow
-            for(i =0; i < tempVertices.length; i++) {
-                var curX = tempVertices[i].data[0][0];
-            }
+            
             console.log("right");
             break;
         case 40: // DOWN Arrow
-            for(i =0; i < tempVertices.length; i++) {
-                var curX = tempVertices[i].data[2][0];
-            }
+            
             console.log("down");
             break;
     }

@@ -383,7 +383,16 @@ function mat4x4parallel(vrp, vpn, vup, prp, clip) {
 
 }
 
+/**
+This give us the Perspective matrix Nper from the slide on canvas.
+Nper will scale all of the models into the canonical view volume
+we need to get everything looking proportional. We call this from 
+the rederscene.js file in the Drawscene() function.
+
+**/
 function mat4x4perspective(vrp, vpn, vup, prp, clip) {
+    // IM FOLLOWING THE STEPS FROM HERE AND MAKING THE 
+    //      MATRICES FROM THE SLIDES.
     // 1. translate VRP to the origin
     // 2. rotate VRC such that n-axis (VPN) becomes the z-axis, 
     //    u-axis becomes the x-axis, and v-axis becomes the y-axis
@@ -393,7 +402,7 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
     //    (x = [z,-z], y = [z,-z], z = [-z_min,-1])
     
     // 1.
-    var Tvrp = new Matrix(4,4);
+    var Tvrp = new Matrix(4,4); // T(-vrp) from the slides
     Tvrp.values = [
         [1, 0, 0, -vrp.x],
         [0, 1, 0, -vrp.y],
@@ -407,14 +416,14 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
     u_axis.normalize()
     let v_axis = n_axis.cross(u_axis);
     var rotateVRC = new Matrix(4,4);
-    rotateVRC.values = [
+    rotateVRC.values = [ // Rotating the VRC from the slides
         [u_axis.x, u_axis.y, u_axis.z, 0],
         [v_axis.x, v_axis.y, v_axis.z, 0],
         [n_axis.x, n_axis.y, n_axis.z, 0],
         [0, 0, 0, 1]
     ];
     // 3.
-    var Tprp = new Matrix(4,4);
+    var Tprp = new Matrix(4,4); // Translating the prp from the slides
     Tprp.values = [
         [1, 0, 0, -prp.x],
         [0, 1, 0, -prp.y],
@@ -430,7 +439,7 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
     var shxpar = (-DOP.x) / DOP.z;
     var shypar = (-DOP.y) / DOP.z;
     var SHEARxy = new Matrix(4,4);
-    SHEARxy.values = [
+    SHEARxy.values = [ // Shearing from the slides
         [1, 0, shxpar, 0],
         [0, 1, shypar, 0],
         [0, 0, 1, 0],
@@ -442,14 +451,14 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
     var scale_pers_y = ((2 * VRP_prime) / ((clip[3] - clip[2]) * (VRP_prime + clip[5])));
     var scale_pers_z = (-1 / (VRP_prime + clip[5]));
     var Spers = new Matrix(4,4);
-    Spers.values = [
+    Spers.values = [ // Scaling from the slide.
         [scale_pers_x, 0, 0, 0],
         [0, scale_pers_y, 0, 0],
         [0, 0, 0, scale_pers_z],
         [0, 0, 0, 1]
     ];
     //var Nper = Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp);
-    return Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp);
+    return Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp); // This should return back the correct Nper Matrix from the slides
 }
 
 function mat4x4mper() {

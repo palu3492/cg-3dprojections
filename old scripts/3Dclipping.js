@@ -7,7 +7,7 @@ const BACK = 1;
 
 
 function GetOutCode(pt, view) {
-    var outcode = 0;
+    let outcode = 0;
     if(pt.x < view.x_min) {
         outcode += LEFT;
     } else if(pt.x > view.x_max) {
@@ -27,18 +27,18 @@ function GetOutCode(pt, view) {
 }
 
 function ClipLine(pt0, pt1, view) {
-    var result = {
+    let result = {
         pt0: {},
         pt1: {}
     };
-    var outcode0 = GetOutCode(pt0, view);
-    var outcode1 = GetOutCode(pt1, view);
-    var delta_x = pt1.x - pt0.x;
-    var delta_y = pt1.y - pt0.y;
-    var delta_z = pt1.z - pt0.z;
-    var b = pt0.y - ((delta_y / delta_x) * pt0.x);
+    let outcode0 = GetOutCode(pt0, view);
+    let outcode1 = GetOutCode(pt1, view);
+    let delta_x = pt1.x - pt0.x;
+    let delta_y = pt1.y - pt0.y;
+    let delta_z = pt1.z - pt0.z;
+    let b = pt0.y - ((delta_y / delta_x) * pt0.x);
 
-    var done = false;
+    let done = false;
     while(!done) {
         if((outcode0 | outcode1) === 0) { // Trivial accept
             done = true;
@@ -52,8 +52,8 @@ function ClipLine(pt0, pt1, view) {
             done = true;
             result = null;
         } else {
-            var selected_pt; // we pick a point that is outside the view
-            var selected_outcode;
+            let selected_pt; // we pick a point that is outside the view
+            let selected_outcode;
             if(outcode0 > 0) {
                 select_pt = pt0;
                 selected_outcode = outcode0;
@@ -97,19 +97,19 @@ function Init() {
 
     
 
-    var w = 600;
-    var h = 600;
+    let w = 600;
+    let h = 600;
 
-    var mycanvas = document.getElementById('mycanvas');
+    let mycanvas = document.getElementById('mycanvas');
 
     mycanvas.width = w;
     mycanvas.hieght = h;
 
 
-    var ctx = mycanvas.getContext("2d");
+    let ctx = mycanvas.getContext("2d");
     
     // Get copy of the framebuffer
-    var framebuffer = ctx.getImageData(0, 0, w, h); 
+    let framebuffer = ctx.getImageData(0, 0, w, h);
 
 
 
@@ -120,7 +120,7 @@ function Draw_Line(x1, y1, x2, y2) {
     // Logical comparison before bitwise comparison
 
     // check which point is outside the canvas
-    var outside_point;
+    let outside_point;
     if(x1 < mycanvas.width || x1 > mycanvas.width) {
 
     } else if (y1 < mycanvas.hieght || y1 > mycanvas.hieght) {

@@ -3,7 +3,7 @@ class Matrix {
         this.rows = r;
         this.columns = c;
         this.data = [];
-        var i, j;
+        let i, j;
         for (i = 0; i < this.rows; i++) {
             this.data.push([]);
             for (j = 0; j < this.columns; j++) {
@@ -13,7 +13,7 @@ class Matrix {
     }
 
     set values(v) {
-        var i, j, idx;
+        let i, j, idx;
         // v is already a 2d array with dims equal to rows and columns
         if (v instanceof Array && v.length === this.rows && 
             v[0] instanceof Array && v[0].length === this.columns) {
@@ -42,8 +42,8 @@ class Matrix {
 
     // matrix multiplication (this * rhs)
     mult(rhs) {
-        var result = null;
-        var i, j, k, vals, sum;
+        let result = null;
+        let i, j, k, vals, sum;
         // ensure multiplication is valid
         if (rhs instanceof Matrix && this.columns === rhs.rows) {
             result = new Matrix(this.rows, rhs.columns);
@@ -67,8 +67,8 @@ class Matrix {
 }
 
 Matrix.multiply = function(...args) {
-    var i;
-    var result = null;
+    let i;
+    let result = null;
     // ensure at least 2 matrices
     if (args.length >= 2 && args.every((item) => {return item instanceof Matrix;})) {
         result = args[0];
@@ -90,7 +90,7 @@ Matrix.multiply = function(...args) {
 
 class Vector extends Matrix {
     constructor(n) {
-        var i;
+        let i;
         if (n instanceof Matrix) {
             super(n.rows, 1);
             for (i = 0; i < this.rows; i++) {
@@ -103,7 +103,7 @@ class Vector extends Matrix {
     }
 
     get x() {
-        var result = null;
+        let result = null;
         if (this.rows > 0) {
             result = this.data[0][0];
         }
@@ -111,7 +111,7 @@ class Vector extends Matrix {
     }
 
     get y() {
-        var result = null;
+        let result = null;
         if (this.rows > 1) {
             result = this.data[1][0];
         }
@@ -119,7 +119,7 @@ class Vector extends Matrix {
     }
 
     get z() {
-        var result = null;
+        let result = null;
         if (this.rows > 2) {
             result = this.data[2][0];
         }
@@ -127,7 +127,7 @@ class Vector extends Matrix {
     }
 
     get w() {
-        var result = null;
+        let result = null;
         if (this.rows > 3) {
             result = this.data[3][0];
         }
@@ -159,8 +159,8 @@ class Vector extends Matrix {
     }
 
     magnitude() {
-        var i;
-        var sum = 0;
+        let i;
+        let sum = 0;
         for (i = 0; i < this.rows; i++) {
             sum += this.data[i][0] * this.data[i][0];
         }
@@ -168,23 +168,23 @@ class Vector extends Matrix {
     }
 
     normalize() {
-        var i;
-        var mag = this.magnitude();
+        let i;
+        let mag = this.magnitude();
         for (i = 0; i < this.rows; i++) {
             this.data[i][0] /= mag;
         }
     }
 
     scale(s) {
-        var i;
+        let i;
         for (i = 0; i < this.rows; i++) {
             this.data[i][0] *= s;
         }
     }
 
     add(rhs) {
-        var i;
-        var result = null;
+        let i;
+        let result = null;
         if (rhs instanceof Vector && this.rows === rhs.rows) {
             result = new Vector(this.rows);
             for (i = 0; i < this.rows; i++) {
@@ -195,8 +195,8 @@ class Vector extends Matrix {
     }
 
     subtract(rhs) {
-        var i;
-        var result = null;
+        let i;
+        let result = null;
         if (rhs instanceof Vector && this.rows === rhs.rows) {
             result = new Vector(this.rows);
             for (i = 0; i < this.rows; i++) {
@@ -207,8 +207,8 @@ class Vector extends Matrix {
     }
 
     dot(rhs) {
-        var i;
-        var sum = 0;
+        let i;
+        let sum = 0;
         if (rhs instanceof Vector && this.rows === rhs.rows) {
             for (i = 0; i < this.rows; i++) {
                 sum += this.data[i][0] * rhs.data[i][0];
@@ -218,7 +218,7 @@ class Vector extends Matrix {
     }
 
     cross(rhs) {
-        var result = null;
+        let result = null;
         if (rhs instanceof Vector && this.rows === 3 && rhs.rows === 3) {
             result = new Vector(3);
             result.values = [this.data[1][0] * rhs.data[2][0] - this.data[2][0] * rhs.data[1][0],
@@ -232,7 +232,7 @@ class Vector extends Matrix {
 
 
 function mat4x4identity() {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = 1;
     result.data[1][1] = 1;
     result.data[2][2] = 1;
@@ -241,7 +241,7 @@ function mat4x4identity() {
 }
 
 function mat4x4translate(tx, ty, tz) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = 1;
     result.data[0][3] = tx;
     result.data[1][1] = 1;
@@ -253,7 +253,7 @@ function mat4x4translate(tx, ty, tz) {
 }
 
 function mat4x4scale(sx, sy, sz) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = 1;
     result.data[0][3] = sx;
     result.data[1][1] = 1;
@@ -265,7 +265,7 @@ function mat4x4scale(sx, sy, sz) {
 }
 
 function mat4x4rotatex(theta) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = 1;
     result.data[1][1] = Math.cos(theta);
     result.data[1][2] = (-1) * (Math.sin(theta));
@@ -276,7 +276,7 @@ function mat4x4rotatex(theta) {
 }
 
 function mat4x4rotatey(theta) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = Math.cos(theta);
     result.data[0][2] = Math.sin(theta);
     result.data[1][1] = 1;
@@ -287,7 +287,7 @@ function mat4x4rotatey(theta) {
 }
 
 function mat4x4rotatez(theta) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = Math.cos(theta);
     result.data[0][1] = (-1) * (Math.sin(theta));
     result.data[1][0] = Math.sin(theta);
@@ -298,7 +298,7 @@ function mat4x4rotatez(theta) {
 }
 
 function mat4x4shearxy(shx, shy) {
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     result.data[0][0] = 1;
     result.data[0][2] = shx;
     result.data[1][1] = 1;
@@ -310,7 +310,7 @@ function mat4x4shearxy(shx, shy) {
 }
 
 function mat4x4rotatevrp(u1,u2,u3,v1,v2,v3,n1,n2,n3) {
-    var result = new Matrix(4,4);
+    let result = new Matrix(4,4);
     result.data[0][0] = u1;
     result.data[0][1] = u2;
     result.data[0][2] = u3;
@@ -325,7 +325,7 @@ function mat4x4rotatevrp(u1,u2,u3,v1,v2,v3,n1,n2,n3) {
 }
 
 function mat4x4scaleperspective(sperx, spery, sperz) {
-    var result = new Matrix(4,4);
+    let result = new Matrix(4,4);
     result.data[0][0] = sperx;
     result.data[1][1] = spery;
     result.data[2][2] = sperz;
@@ -334,14 +334,14 @@ function mat4x4scaleperspective(sperx, spery, sperz) {
 }
 
 function mat4x4scareparallel(sparx, spary, sparz) {
-    var result = mat4x4identity();
+    let result = mat4x4identity();
     result.data[0][0] = sparx;
     result.data[1][1] = spary;
     result.data[2][2] = sparz;
     return result;
 }
 function mat4x4cwfront(cwx, cwy, front) {
-    var result = mat4x4identity();
+    let result = mat4x4identity();
     result.data[0][3] = cwx;
     result.data[1][3] = cwy;
     result.data[2][3] = front;
@@ -357,42 +357,44 @@ function mat4x4parallel(vrp, vpn, vup, prp, clip) {
     //    (x = [-1,1], y = [-1,1], z = [0,-1])
 
     // 1.
-    var Tvrp = mat4x4translate(-vrp.x, -vrp.y, -vrp.z);
+    let Tvrp = mat4x4translate(-vrp.x, -vrp.y, -vrp.z);
     // 2.
-    var n_axis = Vector3(vpn.x, vpn.y, vpn.z);
+    let n_axis = Vector3(vpn.x, vpn.y, vpn.z);
     n_axis.normalize();
-    var u_axis = vup.cross(n_axis);
+    let u_axis = vup.cross(n_axis);
     u_axis.normalize()
     let v_axis = n_axis.cross(u_axis);
     u_axis.x
-    var rotateVRC = new Matrix(4,4);
+    let rotateVRC = new Matrix(4,4);
     rotateVRC.values = [[u_axis.x, u_axis.y, u_axis.z,0],[v_axis.x, v_axis.y, v_axis.z, 0],[n_axis.x, n_axis.y, n_axis.z, 0],[0,0,0,1]]
     // 3.
-    var Tprp = mat4x4translate(-prp.x, -prp.y, -prp.z);
+    let Tprp = mat4x4translate(-prp.x, -prp.y, -prp.z);
     // 4.
-    var DOP_x = ((clip[0] + clip[1])/2); // center of window on the X
-    var DOP_y = ((clip[2] + clip[3])/2); // center of window on the Y
+    let DOP_x = ((clip[0] + clip[1])/2); // center of window on the X
+    let DOP_y = ((clip[2] + clip[3])/2); // center of window on the Y
     const Z = 0; // the Z is usually 0
-    var CW = Vector3(DOP_x, DOP_y, Z); // center of window Vector
-    var DOP = CW.subtract(prp); // From class slides DOP = CW - PRP
-    var shxpar = (-DOP.x) / DOP.z;
-    var shypar = (-DOP.y) / DOP.z;
-    var SHEARxy = mat4x4shearxy(shxpar, shypar);
+    let CW = Vector3(DOP_x, DOP_y, Z); // center of window Vector
+    let DOP = CW.subtract(prp); // From class slides DOP = CW - PRP
+    let shxpar = (-DOP.x) / DOP.z;
+    let shypar = (-DOP.y) / DOP.z;
+    let SHEARxy = mat4x4shearxy(shxpar, shypar);
 
 
 
 }
 
-/**
-This give us the Perspective matrix Nper from the slide on canvas.
-Nper will scale all of the models into the canonical view volume
-we need to get everything looking proportional. We call this from 
-the rederscene.js file in the Drawscene() function.
-
-**/
 function mat4x4perspective(vrp, vpn, vup, prp, clip) {
-    // IM FOLLOWING THE STEPS FROM HERE AND MAKING THE 
-    //      MATRICES FROM THE SLIDES.
+    // console.log('--')
+    // console.log(vrp);
+    // console.log(vpn)
+    vpn.x = 0.7071067811865476;
+    vpn.y = 0;
+    vpn.z = 0.7071067811865476;
+    //     [0.7071067811865476]
+    // 1: [0]
+    // 2: [0.7071067811865476]
+    // vpn = -20;
+    clip = [-20, 20, -4, 36, 1, -50];
     // 1. translate VRP to the origin
     // 2. rotate VRC such that n-axis (VPN) becomes the z-axis, 
     //    u-axis becomes the x-axis, and v-axis becomes the y-axis
@@ -402,7 +404,8 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
     //    (x = [z,-z], y = [z,-z], z = [-z_min,-1])
     
     // 1.
-    var Tvrp = new Matrix(4,4); // T(-vrp) from the slides
+    // translate VRP to the origin
+    let Tvrp = new Matrix(4,4);
     Tvrp.values = [
         [1, 0, 0, -vrp.x],
         [0, 1, 0, -vrp.y],
@@ -410,20 +413,22 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
         [0, 0, 0, 1]
     ];
     // 2.
-    var n_axis = new Vector3(vpn.x, vpn.y, vpn.z);
+    // n-axis(VPN) becomes the z-axis, u-axis becomes the x-axis, and v-axis becomes the y-axis
+    let n_axis = new Vector3(vpn.x, vpn.y, vpn.z);
     n_axis.normalize();
-    var u_axis = vup.cross(n_axis);
-    u_axis.normalize()
+    let u_axis = vup.cross(n_axis);
+    u_axis.normalize();
     let v_axis = n_axis.cross(u_axis);
-    var rotateVRC = new Matrix(4,4);
-    rotateVRC.values = [ // Rotating the VRC from the slides
+    let rotateVRC = new Matrix(4,4);
+    rotateVRC.values = [
         [u_axis.x, u_axis.y, u_axis.z, 0],
         [v_axis.x, v_axis.y, v_axis.z, 0],
         [n_axis.x, n_axis.y, n_axis.z, 0],
         [0, 0, 0, 1]
     ];
     // 3.
-    var Tprp = new Matrix(4,4); // Translating the prp from the slides
+    // translate PRP to the origin
+    let Tprp = new Matrix(4,4);
     Tprp.values = [
         [1, 0, 0, -prp.x],
         [0, 1, 0, -prp.y],
@@ -431,51 +436,75 @@ function mat4x4perspective(vrp, vpn, vup, prp, clip) {
         [0, 0, 0, 1]
     ];
     // 4.
-    var DOP_x = (clip[0] + clip[1])/2; // center of window on the X
-    var DOP_y = (clip[2] + clip[3])/2; // center of window on the Y
-    const Z = 0; // the Z is usually 0
-    var CW = new Vector3(DOP_x, DOP_y, Z); // center of window Vector
-    var DOP = CW.subtract(prp); // From class slides DOP = CW - PRP
-    var shxpar = (-DOP.x) / DOP.z;
-    var shypar = (-DOP.y) / DOP.z;
-    var SHEARxy = new Matrix(4,4);
-    SHEARxy.values = [ // Shearing from the slides
+    // shear such that the center line of the view volume becomes the z-axis
+    let DOP_x = (clip[0] + clip[1])/2; // center of window on the X
+    let DOP_y = (clip[2] + clip[3])/2; // center of window on the Y
+    let DOP_z = 0 - prp.z;
+
+    DOP_x -= prp.x;
+    DOP_y -= prp.y;
+
+
+    let shxpar = (-DOP_x) / DOP_z;
+    let shypar = (-DOP_y) / DOP_z;
+    let SHEARxy = new Matrix(4,4);
+    SHEARxy.values = [
         [1, 0, shxpar, 0],
         [0, 1, shypar, 0],
         [0, 0, 1, 0],
         [0, 0, 0, 1]
     ];
     // 5.
-    var VRP_prime = -prp.z;
-    var scale_pers_x = ((2 * VRP_prime) / ((clip[1] - clip[0]) * (VRP_prime + clip[5])));
-    var scale_pers_y = ((2 * VRP_prime) / ((clip[3] - clip[2]) * (VRP_prime + clip[5])));
-    var scale_pers_z = (-1 / (VRP_prime + clip[5]));
-    var Spers = new Matrix(4,4);
-    Spers.values = [ // Scaling from the slide.
+    // scale into canonical view volume (truncated pyramid) (x = [z,-z], y = [z,-z], z = [-z_min,-1])
+    let VRP_prime = -prp.z;
+    // console.log(clip);
+    let scale_pers_x = ((2 * VRP_prime) / ((clip[1] - clip[0]) * (VRP_prime + clip[5])));
+    let scale_pers_y = ((2 * VRP_prime) / ((clip[3] - clip[2]) * (VRP_prime + clip[5])));
+    let scale_pers_z = (-1 / (VRP_prime + clip[5]));
+    let Spers = new Matrix(4,4);
+    Spers.values = [
         [scale_pers_x, 0, 0, 0],
         [0, scale_pers_y, 0, 0],
         [0, 0, 0, scale_pers_z],
         [0, 0, 0, 1]
     ];
-    //var Nper = Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp);
-    return Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp); // This should return back the correct Nper Matrix from the slides
+
+
+    // let vrppz  = -prp.z;
+    // //console.log(vrppz)
+    // let sperx = ((2*vrppz) / ((clip[1] - clip[0])*(-prp.z + clip[5])));
+    // let spery = ((2*vrppz) /((clip[3] - clip[2])*(-prp.z + clip[5])));
+    // let sperz = (-1 / (vrppz + clip[5]));
+    // let sper = new Matrix(4,4);
+    // sper.values = [[sperx, 0, 0, 0], [0, spery, 0, 0], [0 , 0, sperz, 0], [0, 0, 0, 1]];
+
+    console.log(Spers)
+    //
+    // console.log(Spers);
+    // console.log(SHEARxy);
+    //console.log(Tprp);
+    //console.log(rotateVRC);
+    //console.log(Tvrp);
+    let Nper = Matrix.multiply(Spers, SHEARxy, Tprp, rotateVRC, Tvrp);
+    // console.log(Nper);
+    return Nper
 }
 
 function mat4x4mper() {
     // perspective projection from canonical view volume to far clip plane
-    var result = new Matrix(4, 4);
+    let result = new Matrix(4, 4);
     
     return result;
 }
 
 function Vector3(x, y, z) {
-    var result = new Vector(3);
+    let result = new Vector(3);
     result.values = [x, y, z];
     return result;
 }
 
 function Vector4(x, y, z, w) {
-    var result = new Vector(4);
+    let result = new Vector(4);
     result.values = [x, y, z, w];
     return result;
 }
